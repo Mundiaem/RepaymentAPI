@@ -26,13 +26,15 @@ public class Loan {
     @ManyToOne
     @JoinColumn(name = "loan_customer_id")
     private Customers customer;
-    @ManyToOne
-    @JoinColumn(name = "loan_loan_type_id")
+    @OneToOne(mappedBy = "loan")
     private LoanType loan_type;
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "loan_id")
+    private LoanApplication loan_application;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "transaction", joinColumns = {@JoinColumn(name = "loan_id")}, inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
-    private List<Transaction> loan_applications = new ArrayList<Transaction>();
-
+    @JoinTable(name = "transactions", joinColumns = {@JoinColumn(name = "loan_id")}, inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
+    private List<Transaction> transactions = new ArrayList<Transaction>();
 
 
 }
