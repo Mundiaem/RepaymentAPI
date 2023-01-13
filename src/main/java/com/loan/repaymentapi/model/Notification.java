@@ -1,9 +1,6 @@
 package com.loan.repaymentapi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +17,9 @@ public class Notification {
     private long notification_id;
     private Date notification_date;
     private String message;
+    @ManyToOne
+    @JoinColumn(name = "notification_customer_id")
+    private Customers customer;
 
 
 }
