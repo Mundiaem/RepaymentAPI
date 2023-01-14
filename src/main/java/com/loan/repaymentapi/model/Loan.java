@@ -26,7 +26,8 @@ public class Loan {
     @ManyToOne
     @JoinColumn(name = "loan_customer_id")
     private Customers customer;
-    @OneToOne(mappedBy = "loan")
+    @ManyToOne
+    @JoinColumn(name = "loan_loan_type_id")
     private LoanType loan_type;
     @OneToOne
     @MapsId

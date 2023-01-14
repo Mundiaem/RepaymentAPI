@@ -27,7 +27,7 @@ public class Customers {
     @JoinTable(name = "loan", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_id")})
     private List<Loan> loan = new ArrayList<Loan>();
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "loan_application_id", referencedColumnName = "customer_id")
+    @JoinColumn(name = "customer_loan_application_id", referencedColumnName = "loan_application_id")
     private LoanApplication loan_application;
 
 }

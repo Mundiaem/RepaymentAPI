@@ -1,7 +1,7 @@
 package com.loan.repaymentapi.controllers;
 
 import com.loan.repaymentapi.VO.LoanApplicationRequest;
-import com.loan.repaymentapi.VO.LoanResponseTemplateVO;
+import com.loan.repaymentapi.VO.LoanApplicationResponse;
 import com.loan.repaymentapi.services.LoanService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +31,10 @@ public class LoanControllers {
                     @ApiResponse(responseCode = "200",
                             description = "Returns all number of floors",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = LoanResponseTemplateVO.class)))
+                                    schema = @Schema(implementation = LoanApplicationResponse.class)))
             })
-    private LoanResponseTemplateVO makeLoanApplication(@RequestBody LoanApplicationRequest loanApplicationRequest) {
-        LoanResponseTemplateVO loanResponseTemplateVO = new LoanResponseTemplateVO();
-        loanResponseTemplateVO.setMessage("Made Loan Application");
-        loanResponseTemplateVO.setSuccessful(true);
-        loanResponseTemplateVO.setLoanApplication(loanService.makeLoanApplication(loanApplicationRequest));
-        return loanResponseTemplateVO;
+    private ResponseEntity<LoanApplicationResponse> makeLoanApplication(@RequestBody LoanApplicationRequest loanApplicationRequest) {
+        return new ResponseEntity<>(loanService.makeLoanApplication(loanApplicationRequest), HttpStatus.OK);
     }
 
 

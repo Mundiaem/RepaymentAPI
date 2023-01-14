@@ -11,4 +11,5 @@ public class LoanApplicationRequest {
     private String phone_number;
     private String customer_name;
     private float loan_amount;
+    private int duration;
 }

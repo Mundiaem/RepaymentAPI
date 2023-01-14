@@ -18,9 +18,9 @@ public class LoanType {
     private long loan_type_id;
     private String loan_name;
     private String loan_description;
-    @OneToOne(mappedBy = "loan_type", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Loan loan;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "loan", joinColumns = {@JoinColumn(name = "loan_type_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_id")})
+    private List<Loan> loans = new ArrayList<Loan>();
 
 
 }
