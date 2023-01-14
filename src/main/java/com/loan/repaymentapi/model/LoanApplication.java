@@ -20,7 +20,8 @@ public class LoanApplication {
     private int loan_duration;
     private Date date;
     private LoanStatus loan_status;
-    @OneToOne(mappedBy = "loan_application")
+    @ManyToOne
+    @JoinColumn(name = "customer_loan_application_id")
     private Customers customer;
     @OneToOne(mappedBy = "loan_application", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

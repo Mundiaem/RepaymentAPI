@@ -26,8 +26,8 @@ public class Customers {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "loan", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_id")})
     private List<Loan> loan = new ArrayList<Loan>();
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_loan_application_id", referencedColumnName = "loan_application_id")
-    private LoanApplication loan_application;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "loan_applications", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_application_id")})
+    private List<LoanApplication> loan_applications = new ArrayList<LoanApplication>();
 
 }

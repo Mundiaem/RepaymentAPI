@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/v1/api/")
 @OpenAPIDefinition(info = @Info(title = "Loan Repayment API", version = "1.0", description = "Loan Repayment Information"))
@@ -34,8 +36,14 @@ public class LoanControllers {
                                     schema = @Schema(implementation = LoanApplicationResponse.class)))
             })
     private ResponseEntity<LoanApplicationResponse> makeLoanApplication(@RequestBody LoanApplicationRequest loanApplicationRequest) {
-        return new ResponseEntity<>(loanService.makeLoanApplication(loanApplicationRequest), HttpStatus.OK);
+        try{
+            return new ResponseEntity<>(loanService.makeLoanApplication(loanApplicationRequest), HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
 
 
 }

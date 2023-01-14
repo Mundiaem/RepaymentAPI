@@ -15,5 +15,7 @@ public class LoanApplicationResponse {
     private int loan_duration;
     private Date date;
     private LoanStatus loan_status;
+    private String message;
+    private boolean success;
 
 }
