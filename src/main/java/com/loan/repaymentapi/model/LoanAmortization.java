@@ -1,9 +1,6 @@
 package com.loan.repaymentapi.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +20,8 @@ public class LoanAmortization {
     private float interest_paid;
     private float principal_amount;
     private float remaining_amount;
+    @ManyToOne
+    @JoinColumn(name = "loan_loan_amortization_id")
+    private Transaction transaction;
 
 }

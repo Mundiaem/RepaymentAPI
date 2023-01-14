@@ -35,6 +35,7 @@ public class Loan {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "transactions", joinColumns = {@JoinColumn(name = "loan_id")}, inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
     private List<Transaction> transactions = new ArrayList<Transaction>();
-
-
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "loan_amortizations", joinColumns = {@JoinColumn(name = "loan_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_amortization_id")})
+    private List<LoanAmortization> loanAmortizations = new ArrayList<LoanAmortization>();
 }

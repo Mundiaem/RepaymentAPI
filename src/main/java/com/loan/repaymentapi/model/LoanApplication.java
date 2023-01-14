@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "loan_application")
 public class LoanApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +20,7 @@ public class LoanApplication {
     private int loan_duration;
     private Date date;
     private LoanStatus loan_status;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", referencedColumnName = "loan_application_id")
+    @OneToOne(mappedBy = "loan_application")
     private Customers customer;
     @OneToOne(mappedBy = "loan_application", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn

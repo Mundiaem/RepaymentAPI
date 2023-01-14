@@ -12,9 +12,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "customer")
 public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "customer_id")
     private long customer_id;
     private String phone_number;
     private String customer_name;
@@ -24,6 +26,8 @@ public class Customers {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "loan", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_id")})
     private List<Loan> loan = new ArrayList<Loan>();
-    @OneToOne(mappedBy = "customer")
-    private LoanApplication loanApplication;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "loan_application_id", referencedColumnName = "customer_id")
+    private LoanApplication loan_application;
+
 }
