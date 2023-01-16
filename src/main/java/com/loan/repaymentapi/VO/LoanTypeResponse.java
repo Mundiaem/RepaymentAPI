@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoanApplicationRequest {
-    private String phone_number;
-    private String customer_name;
-    private float loan_amount;
-    private int duration;
+public class LoanTypeResponse {
     private long loan_type_id;
+    private String loan_name;
+    private String loan_description;
 }

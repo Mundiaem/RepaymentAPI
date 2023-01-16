@@ -20,6 +20,7 @@ public class Customers {
     private long customer_id;
     private String phone_number;
     private String customer_name;
+    private String password;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "notifications", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "notification_id")})
     private List<Notification> elevators = new ArrayList<Notification>();

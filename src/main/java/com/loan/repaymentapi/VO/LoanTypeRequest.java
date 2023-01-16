@@ -1,0 +1,13 @@
+package com.loan.repaymentapi.VO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoanTypeRequest {
+    private String loan_name;
+    private String loan_description;
+}
