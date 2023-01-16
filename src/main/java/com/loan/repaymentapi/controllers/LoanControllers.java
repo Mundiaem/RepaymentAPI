@@ -4,6 +4,7 @@ import com.loan.repaymentapi.VO.LoanApplicationRequest;
 import com.loan.repaymentapi.VO.LoanApplicationResponse;
 import com.loan.repaymentapi.VO.LoanTypeRequest;
 import com.loan.repaymentapi.VO.LoanTypeResponse;
+import com.loan.repaymentapi.model.Loan;
 import com.loan.repaymentapi.model.LoanApplication;
 import com.loan.repaymentapi.services.LoanService;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
@@ -26,6 +27,7 @@ public class LoanControllers {
 
     @Autowired
     private LoanService loanService;
+
     @PostMapping(value = "create_loan_type")
     @Operation(summary = "create loan type ", tags = {"Loan Type",},
             responses = {
@@ -40,6 +42,7 @@ public class LoanControllers {
     private ResponseEntity<LoanTypeResponse> createLoanType(@RequestBody LoanTypeRequest request) {
         return new ResponseEntity<>(loanService.makeLoanType(request), HttpStatus.OK);
     }
+
     @PostMapping(value = "request_loan")
     @Operation(summary = "Make loan request ", tags = {"Loan Application",},
             responses = {
@@ -69,8 +72,18 @@ public class LoanControllers {
 
     /**
      *
-     * */
-
+     */
+    @GetMapping(value = "approve_loan")
+    @Operation(summary = "Approve loan   ", tags = {"Approve Applications",},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Approve all loan applications ",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = LoanApplication.class)))
+            })
+    private ResponseEntity<Loan> approveLoan(@RequestParam long loan_application_id) {
+        return new ResponseEntity<>(loanService.approveLoan(loan_application_id), HttpStatus.OK);
+    }
 
 
 }
