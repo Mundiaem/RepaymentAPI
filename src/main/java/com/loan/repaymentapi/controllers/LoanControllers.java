@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/v1/api/")
 @OpenAPIDefinition(info = @Info(title = "Loan Repayment API", version = "1.0", description = "Loan Repayment Information"))
@@ -28,7 +26,7 @@ public class LoanControllers {
     private LoanService loanService;
 
     @PostMapping(value = "request_loan")
-    @Operation(summary = "configure number of floors ", tags = {"Elevator",},
+    @Operation(summary = "configure number of floors ", tags = {"Loan Application",},
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Returns all number of floors",
@@ -36,14 +34,8 @@ public class LoanControllers {
                                     schema = @Schema(implementation = LoanApplicationResponse.class)))
             })
     private ResponseEntity<LoanApplicationResponse> makeLoanApplication(@RequestBody LoanApplicationRequest loanApplicationRequest) {
-        try{
-            return new ResponseEntity<>(loanService.makeLoanApplication(loanApplicationRequest), HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(loanService.makeLoanApplication(loanApplicationRequest), HttpStatus.OK);
     }
-
-
 
 
 }
