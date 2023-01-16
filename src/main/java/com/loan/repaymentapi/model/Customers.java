@@ -2,6 +2,7 @@ package com.loan.repaymentapi.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "customer")
+@Builder
 public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

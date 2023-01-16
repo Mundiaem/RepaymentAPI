@@ -1,9 +1,6 @@
 package com.loan.repaymentapi.controllers;
 
-import com.loan.repaymentapi.VO.LoanApplicationRequest;
-import com.loan.repaymentapi.VO.LoanApplicationResponse;
-import com.loan.repaymentapi.VO.LoanTypeRequest;
-import com.loan.repaymentapi.VO.LoanTypeResponse;
+import com.loan.repaymentapi.VO.*;
 import com.loan.repaymentapi.model.Loan;
 import com.loan.repaymentapi.model.LoanApplication;
 import com.loan.repaymentapi.services.LoanService;
@@ -85,5 +82,15 @@ public class LoanControllers {
         return new ResponseEntity<>(loanService.approveLoan(loan_application_id), HttpStatus.OK);
     }
 
-
+    @GetMapping(value = "make_payment")
+    @Operation(summary = "Pay loan   ", tags = {"Make loan payment",},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Make loan payment endpoint ",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = LoanApplication.class)))
+            })
+    private ResponseEntity<PaymentResponse> makePayment(@RequestBody MakeLoanPaymentRequest request) {
+        return new ResponseEntity<>(loanService.makePayments(request), HttpStatus.OK);
+    }
 }

@@ -1,9 +1,6 @@
 package com.loan.repaymentapi.services;
 
-import com.loan.repaymentapi.VO.LoanApplicationRequest;
-import com.loan.repaymentapi.VO.LoanApplicationResponse;
-import com.loan.repaymentapi.VO.LoanTypeRequest;
-import com.loan.repaymentapi.VO.LoanTypeResponse;
+import com.loan.repaymentapi.VO.*;
 import com.loan.repaymentapi.model.*;
 import com.loan.repaymentapi.repository.LoanApplicationRepository;
 import com.loan.repaymentapi.repository.LoanTypeRepository;
@@ -89,6 +86,10 @@ public class LoanService {
         }else{
             return null;
         }
+    }
+    public PaymentResponse makePayments(MakeLoanPaymentRequest request){
+        PaymentResponse response = new PaymentResponse();
+        return response;
     }
 
 
