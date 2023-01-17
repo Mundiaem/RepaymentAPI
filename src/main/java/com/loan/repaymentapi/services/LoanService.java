@@ -3,6 +3,7 @@ package com.loan.repaymentapi.services;
 import com.loan.repaymentapi.VO.*;
 import com.loan.repaymentapi.model.*;
 import com.loan.repaymentapi.repository.LoanApplicationRepository;
+import com.loan.repaymentapi.repository.LoanRepository;
 import com.loan.repaymentapi.repository.LoanTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class LoanService {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private LoanRepository loanRepository;
 
     public LoanApplicationResponse makeLoanApplication(LoanApplicationRequest request) {
         LoanApplication loanApplication1 = new LoanApplication();
@@ -43,7 +47,6 @@ public class LoanService {
         response.setLoan_amount(application.getLoan_amount());
 
 
-
         return response;
 
     }
@@ -57,24 +60,26 @@ public class LoanService {
         loanType.setLoan_name(loanTypeRequest.getLoan_name());
         loanType.setLoan_description(loanTypeRequest.getLoan_description());
         LoanType results = loanTypeRepository.save(loanType);
-        LoanTypeResponse response= new LoanTypeResponse();
+        LoanTypeResponse response = new LoanTypeResponse();
         response.setLoan_type_id(results.getLoan_type_id());
         response.setLoan_name(results.getLoan_name());
         response.setLoan_description(results.getLoan_description());
         return response;
     }
-    public Loan approveLoan(Long loan_application_id){
-        Optional<LoanApplication> application= loanApplicationRepository.findById(loan_application_id);
-        if(application.isPresent()){
-            Loan loan= new Loan();
+
+    public Loan approveLoan(Long loan_application_id) {
+        Optional<LoanApplication> application = loanApplicationRepository.findById(loan_application_id);
+        if (application.isPresent()) {
+            Loan loan = new Loan();
             loan.setCustomer(application.get().getCustomer());
             loan.setAmount(application.get().getLoan_amount());
             loan.setDuration(application.get().getLoan_duration());
-            Optional<LoanType>  loanType;
-            if(application.get().getLoan_duration()>12){
-                loanType= loanTypeRepository.findById((long)1);
-            }else{
-                loanType= loanTypeRepository.findById((long)2);
+            loan.setLoan_payment_status(LoanStatus.ACTIVE);
+            Optional<LoanType> loanType;
+            if (application.get().getLoan_duration() > 12) {
+                loanType = loanTypeRepository.findById((long) 1);
+            } else {
+                loanType = loanTypeRepository.findById((long) 2);
             }
             loan.setLoan_type(loanType.get());
             loan.setPrinciple_amount(application.get().getLoan_amount());
@@ -83,14 +88,22 @@ public class LoanService {
             return loan;
 
 
-        }else{
+        } else {
             return null;
         }
     }
-    public PaymentResponse makePayments(MakeLoanPaymentRequest request){
+
+    public List<Loan> getActiveLoans(String phone_number) {
+        return loanRepository.findCustomerLoansPaymentStatus(phone_number, LoanStatus.ACTIVE);
+
+
+    }
+
+    public PaymentResponse makePayments(MakeLoanPaymentRequest request) {
         PaymentResponse response = new PaymentResponse();
         return response;
     }
+
 
 
 

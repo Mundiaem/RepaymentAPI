@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Data
@@ -21,9 +20,8 @@ public class Transaction {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime transaction_date;
     private float payment_amount;
-    @ManyToOne
-    @JoinColumn(name = "loan_transaction_id")
-    private Transaction transaction;
-
-
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "transaction_id")
+    private LoanAmortization loan_amortization;
 }

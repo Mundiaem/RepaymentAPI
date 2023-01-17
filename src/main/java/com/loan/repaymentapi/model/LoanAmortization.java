@@ -26,6 +26,9 @@ public class LoanAmortization {
     private float remaining_amount;
     @ManyToOne
     @JoinColumn(name = "loan_loan_amortization_id")
+    private Loan loan;
+    @OneToOne(mappedBy = "loan_amortization", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private Transaction transaction;
 
 }

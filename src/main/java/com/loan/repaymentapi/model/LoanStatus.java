@@ -1,5 +1,5 @@
 package com.loan.repaymentapi.model;
 
 public enum LoanStatus {
-    ACCEPTED, DECLINED
+    ACCEPTED, DECLINED, REPAID, ACTIVE
 }

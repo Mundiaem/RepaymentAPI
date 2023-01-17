@@ -24,6 +24,7 @@ public class Loan {
     private int duration;
     private int interest;
     private float principle_amount;
+    private LoanStatus loan_payment_status;
     @ManyToOne
     @JoinColumn(name = "loan_customer_id")
     private Customers customer;
@@ -34,9 +35,7 @@ public class Loan {
     @MapsId
     @JoinColumn(name = "loan_id")
     private LoanApplication loan_application;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "transactions", joinColumns = {@JoinColumn(name = "loan_id")}, inverseJoinColumns = {@JoinColumn(name = "transaction_id")})
-    private List<Transaction> transactions = new ArrayList<Transaction>();
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "loan_amortizations", joinColumns = {@JoinColumn(name = "loan_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_amortization_id")})
     private List<LoanAmortization> loanAmortizations = new ArrayList<LoanAmortization>();
