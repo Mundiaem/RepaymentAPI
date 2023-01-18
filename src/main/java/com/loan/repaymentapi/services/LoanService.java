@@ -32,11 +32,11 @@ public class LoanService {
         loanApplication1.setLoan_status(LoanStatus.ACCEPTED);
         loanApplication1.setLoan_duration(request.getDuration());
 
-        Customers cus = new Customers();
-        cus.setCustomer_name(request.getCustomer_name());
-        cus.setPhone_number(request.getPhone_number());
-        customerService.saveCustomer(cus);
-        loanApplication1.setCustomer(cus);
+//        Customers cus = new Customers();
+//        cus.setCustomer_name(request.getCustomer_name());
+//        cus.setPhone_number(request.getPhone_number());
+//        customerService.saveCustomer(cus);
+//        loanApplication1.setCustomer(cus);
 
         LoanApplication application = loanApplicationRepository.save(loanApplication1);
         LoanApplicationResponse response = new LoanApplicationResponse();
