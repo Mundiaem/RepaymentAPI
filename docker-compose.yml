@@ -1,0 +1,16 @@
+version: '2'
+services:
+  product-server:
+    container_name: loan-repayment-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: loan-repayment-api:latest
+    ports:
+      - 19999:8082
+    networks:
+      - spring-cloud-network
+    restart: on-failure
+networks:
+  spring-cloud-network:
+    driver: bridge

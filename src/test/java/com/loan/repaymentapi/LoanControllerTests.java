@@ -2,7 +2,6 @@ package com.loan.repaymentapi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.loan.repaymentapi.VO.LoanApplicationRequest;
-import com.loan.repaymentapi.controllers.LoanControllers;
 import com.loan.repaymentapi.model.LoanApplication;
 import com.loan.repaymentapi.model.LoanStatus;
 import com.loan.repaymentapi.services.LoanService;
@@ -11,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -38,9 +35,9 @@ public class LoanControllerTests {
     private LoanService loanService;
     @Autowired
     private ObjectMapper objectMapper;
+
     @BeforeEach
-    void setUp()
-    {
+    void setUp() {
         this.loanService
                 = new LoanService();
     }
