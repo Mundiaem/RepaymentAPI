@@ -20,8 +20,8 @@ import java.util.Properties;
 @Configuration
 public class persistenceConfig {
 
-    @Value("${spring.datasource.driverClassName}")
-    private String driverClassName;
+//    @Value("${spring.datasource.driverClassName}")
+//    private String driverClassName;
     @Value("${spring.datasource.url}")
     private String dbUrl;
     @Value("${spring.datasource.username}")
@@ -53,7 +53,7 @@ public class persistenceConfig {
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driverClassName);
+        dataSource.setDriverClassName("org.h2.Driver");
         dataSource.setUrl(dbUrl);
         dataSource.setUsername(dbUserName);
         dataSource.setPassword(dbPassWord);
