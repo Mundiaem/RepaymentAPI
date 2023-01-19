@@ -1,4 +1,6 @@
-package com.loan.repaymentapi.security;
+package com.loan.repaymentapi.config;
+import com.loan.repaymentapi.security.JwtAuthenticationEntryPoint;
+import com.loan.repaymentapi.security.JwtRequestFilter;
 import com.loan.repaymentapi.utils.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -59,9 +61,9 @@ public class SecurityConfig {
                 .requestMatchers("/explorer/**").permitAll()
                 .requestMatchers("/v1/api/").permitAll()
                 .requestMatchers("/v1/api/customer/register").permitAll()
-                .requestMatchers("/v1/api/customer/authenticate").permitAll()
-                .requestMatchers("/v3/api-docs/*").permitAll().
-                requestMatchers("/swagger-ui/*").permitAll().
+                .requestMatchers("/v1/api/customer/authenticate/**").permitAll()
+                .requestMatchers("/v3/api-docs/**").permitAll().
+                requestMatchers("/swagger-ui/**").permitAll().
                 requestMatchers("/swagger2-demo/*").permitAll().
                 requestMatchers("/swagger-ui.html").permitAll().
                 // all other requests need to be authenticated
