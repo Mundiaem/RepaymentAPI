@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,9 +21,13 @@ public class Customers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private long customer_id;
-    private String phone_number;
-    private String customer_name;
+    private String email;
+    private String first_name;
+    private String second_name;
+    private String username;
     private String password;
+    private String phone_number;
+    private Date date_joined;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "notifications", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "notification_id")})
     private List<Notification> elevators = new ArrayList<Notification>();
