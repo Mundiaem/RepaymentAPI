@@ -5,7 +5,6 @@ import com.loan.repaymentapi.VO.RegisterTemplate;
 import com.loan.repaymentapi.model.Customers;
 import com.loan.repaymentapi.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,17 +18,24 @@ import java.util.ArrayList;
 public class JwtCustomerDetailsService implements UserDetailsService {
     @Autowired
     private CustomerRepository customerRepository;
-//    @Qualifier("bCryptPasswordEncoder")
+    //    @Qualifier("bCryptPasswordEncoder")
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
 
-
-    public Customers save(RegisterTemplate customer) {
+    public RegisterTemplate save(RegisterTemplate customer) {
         Customers newCustomer = new Customers();
         newCustomer.setUsername(customer.getUsername());
         newCustomer.setPassword(bcryptEncoder.encode(customer.getPassword()));
-        return customerRepository.save(newCustomer);
+        newCustomer.setSecond_name(customer.getSecond_name());
+        newCustomer.setEmail(customer.getEmail());
+        newCustomer.setFirst_name(customer.getFirst_name());
+        newCustomer.setPhone_number(customer.getPhone_number());
+        Customers cus = customerRepository.save(newCustomer);
+
+
+        return new RegisterTemplate(cus.getEmail(), cus.getFirst_name(), cus.getSecond_name()
+                , customer.getUsername(), customer.getPassword(), customer.getPhone_number());
     }
 
     @Override
@@ -39,5 +45,6 @@ public class JwtCustomerDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
         return new User(customer.getUsername(), customer.getPassword(),
-                new ArrayList<>());    }
+                new ArrayList<>());
+    }
 }

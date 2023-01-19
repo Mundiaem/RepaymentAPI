@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,11 +22,14 @@ public class Customers {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private long customer_id;
+    @Column(nullable = false, unique = true)
     private String email;
     private String first_name;
     private String second_name;
+    @Column(nullable = false, unique = true)
     private String username;
     private String password;
+    @Column(nullable = false, unique = true)
     private String phone_number;
     private Date date_joined;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

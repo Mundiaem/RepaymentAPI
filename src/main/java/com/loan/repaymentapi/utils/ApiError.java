@@ -21,7 +21,6 @@ import java.util.Set;
 @JsonTypeIdResolver(LowerCaseClassNameResolver.class)
 public
 class ApiError {
-
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private LocalDateTime timestamp;
@@ -105,4 +104,5 @@ class ApiError {
     public void addValidationErrors(Set<ConstraintViolation<?>> constraintViolations) {
         constraintViolations.forEach(this::addValidationError);
     }
+
 }
