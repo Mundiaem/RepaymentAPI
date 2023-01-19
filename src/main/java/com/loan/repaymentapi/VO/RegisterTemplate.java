@@ -1,19 +1,17 @@
-package com.loan.repaymentapi.model;
+package com.loan.repaymentapi.VO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JwtRequest implements Serializable {
-
-    private static final long serialVersionUID = 5926468583005150707L;
-
+public class RegisterTemplate {
+    private String email;
+    private String first_name;
+    private String second_name;
     private String username;
     private String password;
-
-
+    private String phone_number;
 }

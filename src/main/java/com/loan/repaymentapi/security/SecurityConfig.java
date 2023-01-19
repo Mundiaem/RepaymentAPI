@@ -1,5 +1,4 @@
 package com.loan.repaymentapi.security;
-import com.loan.repaymentapi.security.UserDetailServiceConfig.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,11 +54,11 @@ public class SecurityConfig {
         // We don't need CSRF for this example
         http.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().requestMatchers("/users/authenticate").permitAll()
+                .authorizeRequests().requestMatchers("/v1/api/customer/authenticate").permitAll()
                 .requestMatchers("/explorer/**").permitAll()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/customer/register").permitAll()
-                .requestMatchers("/customer/authenticate").permitAll()
+                .requestMatchers("/v1/api/").permitAll()
+                .requestMatchers("/v1/api/customer/register").permitAll()
+                .requestMatchers("/v1/api/customer/authenticate").permitAll()
                 .requestMatchers("/v3/api-docs/*").permitAll().
                 requestMatchers("/swagger-ui/*").permitAll().
                 requestMatchers("/swagger2-demo/*").permitAll().

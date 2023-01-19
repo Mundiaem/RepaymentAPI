@@ -2,11 +2,20 @@ package com.loan.repaymentapi.controllers;
 
 
 
+import com.loan.repaymentapi.VO.LoanTypeResponse;
+import com.loan.repaymentapi.VO.RegisterTemplate;
 import com.loan.repaymentapi.model.Customers;
 import com.loan.repaymentapi.model.JwtRequest;
 import com.loan.repaymentapi.model.JwtResponse;
+import com.loan.repaymentapi.model.LoanApplication;
 import com.loan.repaymentapi.security.JwtTokenUtil;
 import com.loan.repaymentapi.services.JwtCustomerDetailsService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
@@ -16,14 +25,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ComponentScan
-@RequestMapping("/v1/api/authentication/")
+@RequestMapping("/v1/api/customer/")
+@OpenAPIDefinition(info = @Info(title = "Loan Repayment API", version = "1.0", description = "Authentication "))
 public class JwtAuthenticationController {
 
     @Autowired
@@ -37,6 +44,13 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(summary = "Login Authentication ", tags = {"Login",},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Customer login",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtResponse.class)))
+            })
 
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
@@ -63,11 +77,14 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> saveUser(@RequestBody Customers customer) throws Exception {
-//        User user = new User();
-//        user.setPassword(password);
-//        user.setUserLevel(username);
-        System.out.println(" Register called " + customer.toString());
-        return ResponseEntity.ok(jwtCustomerDetailsService.save(customer));
+    @Operation(summary = "Register customers  ", tags = {"registration",},
+            responses = {
+                    @ApiResponse(responseCode = "200",
+                            description = "Customer details response ",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RegisterTemplate.class)))
+            })
+    public ResponseEntity<?> saveUser(@RequestBody RegisterTemplate registerTemplate) throws Exception {
+        return ResponseEntity.ok(jwtCustomerDetailsService.save(registerTemplate));
     }
 }

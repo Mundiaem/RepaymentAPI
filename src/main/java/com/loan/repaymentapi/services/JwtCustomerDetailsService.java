@@ -1,6 +1,7 @@
 package com.loan.repaymentapi.services;
 
 
+import com.loan.repaymentapi.VO.RegisterTemplate;
 import com.loan.repaymentapi.model.Customers;
 import com.loan.repaymentapi.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class JwtCustomerDetailsService implements UserDetailsService {
 
 
 
-    public Customers save(Customers customer) {
+    public Customers save(RegisterTemplate customer) {
         Customers newCustomer = new Customers();
         newCustomer.setUsername(customer.getUsername());
         newCustomer.setPassword(bcryptEncoder.encode(customer.getPassword()));

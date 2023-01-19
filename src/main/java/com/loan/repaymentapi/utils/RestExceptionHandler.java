@@ -34,17 +34,17 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String error = "Malformed JSON request";
+        String error = "Method not supported";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));    }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String error = "Malformed JSON request";
+        String error = "Missing Parameter";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));    }
 
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        String error = "Malformed JSON request";
+        String error = "Message not readable";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));    }
 
 
@@ -55,6 +55,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
-        String error = "Malformed JSON request";
+        String error = "Internal Exception ";
         return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));       }
 }
