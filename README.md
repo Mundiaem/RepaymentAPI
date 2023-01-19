@@ -21,7 +21,7 @@ To access the console, visit: [hb console](http://localhost:8082/h2-console)
 The username and passwords are defined at application.properties
 Make sure the database file path is correct on the login console
 ### Postman Collection
-[.docs/Loan Repayment API.postman_collection.json](.docs/Loan Repayment API.postman_collection.json)
+[Endpoints collections](.docs/Loan Repayment API.postman_collection.json)
 ### Documentation UI
 - The application has an embedded OpenAPI  web page showcasing all the endpoints
 - To access the endpoint visit:
