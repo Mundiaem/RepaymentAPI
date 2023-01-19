@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "3828440d-a16b-418d-9985-9607493db896",
+		"name": "Loan Repayment API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "862510"
+	},
+	"item": [
+		{
+			"name": "Loan Applications",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Approve Loans",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8082/v1/api/approve_loan",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8082",
+					"path": [
+						"v1",
+						"api",
+						"approve_loan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make Loan Request",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"phone_number\": \"+254 763 380 155\",\n\"customer_name\": \"Dominic Mundia\",\n\"loan_amount\": 200000.00,\n\"duration\": 11,\n\"loan_type_id\": 1}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8082/v1/api/request_loan",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8082",
+					"path": [
+						"v1",
+						"api",
+						"request_loan"
+					],
+					"query": [
+						{
+							"key": "phone_number",
+							"value": "+254 763 380 155",
+							"disabled": true
+						},
+						{
+							"key": "customer_name",
+							"value": "Dominic Mundia",
+							"disabled": true
+						},
+						{
+							"key": "loan_amount",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "duration",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "loan_type_id",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8082/v1/api//customer/authenticate",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8082",
+					"path": [
+						"v1",
+						"api",
+						"",
+						"customer",
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8082/v1/api//customer/register",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8082",
+					"path": [
+						"v1",
+						"api",
+						"",
+						"customer",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
