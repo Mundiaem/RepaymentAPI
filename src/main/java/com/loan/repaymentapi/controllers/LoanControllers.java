@@ -82,7 +82,7 @@ public class LoanControllers {
         return new ResponseEntity<>(loanService.approveLoan(loan_application_id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "make_payment")
+    @PutMapping(value = "make_payment")
     @Operation(summary = "Pay loan   ", tags = {"Make loan payment",},
             responses = {
                     @ApiResponse(responseCode = "200",

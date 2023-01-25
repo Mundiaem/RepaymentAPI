@@ -10,5 +10,4 @@ import lombok.*;
 public class MakeLoanPaymentRequest {
     private int  load_id;
     private float amount;
-    private String phone_number;
 }

@@ -38,7 +38,7 @@ public class Customers {
     @JoinTable(name = "loan", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_id")})
     private List<Loan> loan = new ArrayList<Loan>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "loan_applications", joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_application_id")})
+    @JoinTable(name = "loan_applications" , joinColumns = {@JoinColumn(name = "customer_id")}, inverseJoinColumns = {@JoinColumn(name = "loan_application_id")})
     private List<LoanApplication> loan_applications = new ArrayList<LoanApplication>();
 
 }

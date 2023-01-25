@@ -5,11 +5,12 @@ import com.loan.repaymentapi.model.*;
 import com.loan.repaymentapi.repository.LoanApplicationRepository;
 import com.loan.repaymentapi.repository.LoanRepository;
 import com.loan.repaymentapi.repository.LoanTypeRepository;
+import com.loan.repaymentapi.utils.IAuthenticationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,20 +29,21 @@ public class LoanService {
     @Autowired
     private LoanRepository loanRepository;
 
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
+    @Autowired
+    private IAuthenticationFacade authenticationFacade;
 
     public LoanApplicationResponse makeLoanApplication(LoanApplicationRequest request) {
-        System.out.println("User logged in : "+ auth.getDetails());
+        Authentication authentication = authenticationFacade.getAuthentication();
+
+        System.out.println("User logged in : " + authentication.getName());
         LoanApplication loanApplication1 = new LoanApplication();
         loanApplication1.setLoan_amount(request.getLoan_amount());
         loanApplication1.setLoan_status(LoanStatus.ACCEPTED);
         loanApplication1.setLoan_duration(request.getDuration());
+        loanApplication1.setDate(LocalDateTime.now());
 
-        Customers cus = new Customers();
-        cus.setUsername(request.getCustomer_name());
-        cus.setPhone_number(request.getPhone_number());
-        customerService.saveCustomer(cus);
+
+        Customers cus = customerService.findCustomerByUsername(authentication.getName());
         loanApplication1.setCustomer(cus);
 
         LoanApplication application = loanApplicationRepository.save(loanApplication1);
@@ -77,6 +79,7 @@ public class LoanService {
         Optional<LoanApplication> application = loanApplicationRepository.findById(loan_application_id);
         if (application.isPresent()) {
             Loan loan = new Loan();
+            loan.setLoan_date(LocalDateTime.now());
             loan.setCustomer(application.get().getCustomer());
             loan.setAmount(application.get().getLoan_amount());
             loan.setDuration(application.get().getLoan_duration());
@@ -90,6 +93,7 @@ public class LoanService {
             loan.setLoan_type(loanType.get());
             loan.setPrinciple_amount(application.get().getLoan_amount());
             loan.setInterest(9);
+            System.out.println("Approved : "+loan.toString());
 
             return loan;
 
@@ -109,8 +113,6 @@ public class LoanService {
         PaymentResponse response = new PaymentResponse();
         return response;
     }
-
-
 
 
 }

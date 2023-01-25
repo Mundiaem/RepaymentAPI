@@ -2,7 +2,6 @@ package com.loan.repaymentapi.utils;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -15,12 +14,12 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,7 +37,11 @@ import static org.springframework.http.HttpStatus.*;
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { JwtException.class, ExpiredJwtException.class})
+    public RestExceptionHandler() {
+        super();
+    }
+
+    @ExceptionHandler(value = {JwtException.class, ExpiredJwtException.class})
     public ResponseEntity<Object> handleAccessDeniedException(
             Exception ex, WebRequest request) {
         String error = "Missing Bearer token";
@@ -58,13 +61,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String error = "Method not supported";
-        return buildResponseEntity(new ApiError(HttpStatus.METHOD_NOT_ALLOWED, error, ex));    }
+        return buildResponseEntity(new ApiError(HttpStatus.METHOD_NOT_ALLOWED, error, ex));
+    }
 
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String error = "Missing Parameter";
-        return buildResponseEntity(new ApiError(HttpStatus.UNPROCESSABLE_ENTITY, error, ex));    }
-
+        return buildResponseEntity(new ApiError(HttpStatus.UNPROCESSABLE_ENTITY, error, ex));
+    }
 
     /**
      * Handle HttpMessageNotReadableException. Happens when request JSON is malformed.
@@ -81,7 +85,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         log.info("{} to {}", servletWebRequest.getHttpMethod(), servletWebRequest.getRequest().getServletPath());
         String error = "Malformed JSON request";
-        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));   }
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
+    }
 
     /**
      * Handle HttpMessageNotWritableException.
@@ -96,7 +101,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         String error = "Error writing JSON output";
-        return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));    }
+        return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
+    }
 
     /**
      * Handle NoHandlerFoundException.
@@ -113,7 +119,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(String.format("Could not find the %s method for URL %s", ex.getHttpMethod(), ex.getRequestURL()));
         apiError.setDebugMessage(ex.getMessage());
-        return buildResponseEntity(apiError);    }
+        return buildResponseEntity(apiError);
+    }
 
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
@@ -122,11 +129,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
         String error = "Internal Exception ";
-        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));       }
-
-    public RestExceptionHandler() {
-        super();
+        return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, error, ex));
     }
+
     /**
      * Handle HttpMediaTypeNotSupportedException. This one triggers when JSON is invalid as well.
      *
@@ -142,7 +147,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         builder.append(ex.getMessage());
         builder.append(" media type is not supported. Supported media types are ");
         ex.getSupportedMediaTypes().forEach(t -> builder.append(t).append(", "));
-        return buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex));    }
+        return buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE, builder.substring(0, builder.length() - 2), ex));
+    }
 
 
     /**
@@ -162,12 +168,16 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setMessage("Validation error");
         apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
         apiError.addValidationError(ex.getBindingResult().getGlobalErrors());
-        return buildResponseEntity(apiError);    }
+        apiError.addValidationErrors(ex.getFieldErrors());
+       // apiError.addValidationErrors(ex.getGlobalError(),ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
 
     @Override
     public void setMessageSource(MessageSource messageSource) {
         super.setMessageSource(messageSource);
     }
+
     /**
      * Handles jakarta.validation.ConstraintViolationException. Thrown when @Validated fails.
      *
@@ -228,7 +238,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler({ AuthenticationException.class })
+    @ExceptionHandler({AuthenticationException.class})
     @ResponseBody
     public ResponseEntity<Object> handleAuthenticationException(Exception ex) {
         ApiError apiError = new ApiError(UNAUTHORIZED);
@@ -238,4 +248,21 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    @ResponseBody
+    public ResponseEntity<Object> handleUsernameNotFoundException(Exception ex) {
+        ApiError apiError = new ApiError(UNAUTHORIZED);
+        apiError.setMessage(ex.getLocalizedMessage());
+        apiError.setDebugMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+        ApiError apiError = new ApiError(BAD_REQUEST);
+        apiError.setMessage("Validation error");
+
+        return buildResponseEntity(apiError);    }
 }

@@ -10,8 +10,12 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public Customers saveCustomer(Customers customer){
+    public Customers saveCustomer(Customers customer) {
         return customerRepository.save(customer);
 
+    }
+
+    public Customers findCustomerByUsername(String username) {
+        return customerRepository.findByUsername(username);
     }
 }
