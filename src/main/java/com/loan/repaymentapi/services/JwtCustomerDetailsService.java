@@ -35,7 +35,7 @@ public class JwtCustomerDetailsService implements UserDetailsService {
 
 
         return new RegisterTemplate(cus.getEmail(), cus.getFirst_name(), cus.getSecond_name()
-                , customer.getUsername(), customer.getPassword(), customer.getPhone_number());
+                , cus.getUsername(), cus.getPassword(), cus.getPhone_number());
     }
 
     @Override

@@ -82,16 +82,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
     private void tokenCheck(String token) throws Exception {
         //name.trim().length() == 0
+        System.out.println(" tokenCheck: "+token);
         if(token == null || token.isEmpty()){
             throw new BadCredentialsException("Bearer cannot take in an empty String or null value for the \"token\" authenticator");
 
         }
-//        try {
-//
-//        } catch (DisabledException e) {
-//            throw new Exception("USER_DISABLED", e);
-//        } catch (BadCredentialsException e) {
-//            throw new Exception("INVALID_CREDENTIALS", e);
-//        }
+
     }
 }

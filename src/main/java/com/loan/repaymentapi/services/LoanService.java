@@ -6,6 +6,8 @@ import com.loan.repaymentapi.repository.LoanApplicationRepository;
 import com.loan.repaymentapi.repository.LoanRepository;
 import com.loan.repaymentapi.repository.LoanTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +28,11 @@ public class LoanService {
     @Autowired
     private LoanRepository loanRepository;
 
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
     public LoanApplicationResponse makeLoanApplication(LoanApplicationRequest request) {
+        System.out.println("User logged in : "+ auth.getDetails());
         LoanApplication loanApplication1 = new LoanApplication();
         loanApplication1.setLoan_amount(request.getLoan_amount());
         loanApplication1.setLoan_status(LoanStatus.ACCEPTED);

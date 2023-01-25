@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @ComponentScan
 @RequestMapping("/v1/api/customer/")
-@OpenAPIDefinition(info = @Info(title = "Loan Repayment API", version = "1.0", description = "Authentication "))
+@OpenAPIDefinition(info = @Info(title = "Loan Repayment API", version = "1.0", description = "Authentication"))
 public class JwtAuthenticationController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(summary = "Login Authentication ", tags = {"Login",},
+    @Operation(summary = "Login Authentication ", tags = {"Authentication",},
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Customer login",
@@ -59,7 +59,9 @@ public class JwtAuthenticationController {
         final UserDetails userDetails = jwtCustomerDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
 
+
         final String token = jwtTokenUtil.generateToken(userDetails);
+        System.out.println("Token: "+token);
 
         return ResponseEntity.ok(new JwtResponse(token));
     }
@@ -77,7 +79,7 @@ public class JwtAuthenticationController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(summary = "Register customers  ", tags = {"registration",},
+    @Operation(summary = "Register customers  ", tags = {"Authentication",},
             responses = {
                     @ApiResponse(responseCode = "200",
                             description = "Customer details response ",

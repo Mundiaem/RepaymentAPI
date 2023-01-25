@@ -1,4 +1,5 @@
 package com.loan.repaymentapi.config;
+
 import com.loan.repaymentapi.security.JwtAuthenticationEntryPoint;
 import com.loan.repaymentapi.security.JwtRequestFilter;
 import com.loan.repaymentapi.utils.CustomAccessDeniedHandler;
@@ -17,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
@@ -43,6 +45,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsService userDetailService)
             throws Exception {
@@ -52,22 +55,23 @@ public class SecurityConfig {
                 .and()
                 .build();
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // We don't need CSRF for this example
-        http.csrf().disable()
+        http.authorizeRequests()
+                .requestMatchers("/customer/**")
+                .permitAll()
+                .and().authorizeRequests()
+
+
                 // dont authenticate this particular request
-                .authorizeRequests().requestMatchers("/v1/api/customer/authenticate").permitAll()
-                .requestMatchers("/explorer/**").permitAll()
-                .requestMatchers("/v1/api/").permitAll()
                 .requestMatchers("/v1/api/customer/register").permitAll()
-                .requestMatchers("/v1/api/customer/authenticate/**").permitAll()
+                .requestMatchers("/v1/api/customer/authenticate").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll().
                 requestMatchers("/swagger-ui/**").permitAll().
                 requestMatchers("/swagger2-demo/*").permitAll().
-                requestMatchers("/swagger-ui.html").permitAll().
-                // all other requests need to be authenticated
-                        anyRequest().authenticated().and().
+                requestMatchers("/swagger-ui.html").permitAll().and().csrf().disable().
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
@@ -78,6 +82,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
